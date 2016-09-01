@@ -1,0 +1,29 @@
+azure-iot-sdk-c (0.1.0-16) vivid; urgency=low
+
+  * Initial release
+
+  * Update the dependencies for dev packages (#4812242)
+
+  * Change location of the headers for the sdk (#4576392)
+
+  * Add porting/setup for Arduino Yun (#5070955)
+
+  * Update common code to use a shared utility submodule (#5073997)
+
+  * Remove dependency to Proton and Paho (#758a84c)
+
+  * Fix message settlement bug in AMQP Transport (#91bfe82)
+
+  * Fixed memory leaks on AMQP and MQTT client transports (#6f6210c)
+
+  * Introduce _setoption in modules which implement XIO interface (#e721b5c)
+
+  * change the mqtt timeout from 5 min to 4 due to the service disconnect (#451ab96)
+
+  * Added a backoff for mqtt to not overload the network and enable sas token reset before expiration
+
+  * Initial implementation of SAS Token support as input in Device Connection String
+
+  * Fix tlsio_schannel bug (not all input bytes were being read) (#451ab97)
+
+ -- AzureIoT User <aziotsdklinux@outlook.com>  Fri, 20 May 2016 17:24:51 +0000

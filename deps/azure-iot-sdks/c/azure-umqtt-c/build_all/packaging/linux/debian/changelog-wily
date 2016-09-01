@@ -1,0 +1,19 @@
+azure-umqtt-c (0.1.0.1-9) wily; urgency=low
+
+  * Initial release (Closes: #5479749)
+
+  * Update the mqtt codec to ensure totalLen is > 0 (#8c519d16)
+
+  * Added fix for have a 0 keep alive value (#464d0a5)
+
+  * Add mqtt bug fix for restricting size (#16480f6)
+
+  * Update shared-util along with update the KeepAlive second buffer (#f7f54b4)
+
+  * Added times to the logging (#5e37608)
+
+  * Make mqtt codec and mqtt message headers have mockable functions
+
+  * Fix tlsio_schannel bug (not all input bytes were being read) (#451ab97)
+
+ -- AzureIoT User <aziotsdklinux@outlook.com>  Fri, 20 May 2016 00:23:02 +0000

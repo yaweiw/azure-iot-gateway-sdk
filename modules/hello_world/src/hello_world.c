@@ -64,9 +64,9 @@ int helloWorldThread(void *param)
             printf("p_mmapData->vibrant = %d\r\n", p_mmapData->vibrant);
             if (pthread_mutex_unlock(&(p_mmapData->mutex)) != 0) exitError("pthread_mutex_unlock");
 
-            const char lightVal[10];
+            char lightVal[10];
             sprintf(lightVal, "%d", p_mmapData->light);
-            const char vibrantVal[10];
+            char vibrantVal[10];
             sprintf(vibrantVal, "%d", p_mmapData->vibrant);
 
             if (Map_AddOrUpdate(propertiesMap, "Light", lightVal) != MAP_OK)

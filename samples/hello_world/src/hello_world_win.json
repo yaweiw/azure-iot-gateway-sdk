@@ -10,6 +10,11 @@
             "module name" : "hello_world",
             "module path" : "..\\..\\..\\modules\\hello_world\\Debug\\hello_world_hl.dll",
             "args" : null
+        },
+        {
+            "module name" : "IoTHubHttpRelay",
+            "module path" : "..\\..\\..\\modules\\iothubhttp\\Debug\\iothubhttprelay_hl.dll",
+            "args" : { "DeviceConnectionString" : "HostName=yaweiIotHub.azure-devices.net;DeviceId=yaweiseconddevice;SharedAccessKey=gclDGLXK8dcFco9qnWaqQKTJ9QpsaS6RTT02jGPbxMA=" }
         }
     ]
 }

@@ -25,8 +25,26 @@ typedef struct HELLOWORLD_HANDLE_DATA_TAG
 
 #define HELLOWORLD_MESSAGE "hello world"
 
+void exitError(const char* errMsg) {
+  perror(errMsg);
+  exit(EXIT_FAILURE);
+}
+
+void Print(const char* msg) {
+  printf("%s\r\n", msg);
+}
+
 int helloWorldThread(void *param)
 {
+    MMAPDATA_HANDLE p_mmapData; // here our mmapped data will be accessed
+    int fd_mmapFile; // file descriptor for memory mapped file
+    /* Create shared memory object and set its size */
+    fd_mmapFile = open(mmapFilePath, O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
+    if (fd_mmapFile == -1) exitError("fd error; check errno for details");
+    /* Map shared memory object read-writable */
+    p_mmapData = (MMAPDATA_HANDLE)(mmap(NULL, sizeof(MMAPDATA), PROT_READ | PROT_WRITE, MAP_SHARED, fd_mmapFile, 0));
+    if (p_mmapData == MAP_FAILED) exitError("mmap error");
+
     HELLOWORLD_HANDLE_DATA* handleData = param;
 
     MESSAGE_CONFIG msgConfig;
@@ -37,15 +55,30 @@ int helloWorldThread(void *param)
     }
     else
     {
-        if (Map_AddOrUpdate(propertiesMap, "helloWorld", "from Azure IoT Gateway SDK simple sample!") != MAP_OK)
+        while (1)
         {
-            LogError("unable to Map_AddOrUpdate");
-        }
-        else
-        {
+            if (pthread_mutex_lock(&(p_mmapData->mutex)) != 0) exitError("pthread_mutex_lock");
+            if (pthread_cond_wait(&(p_mmapData->cond), &(p_mmapData->mutex)) != 0) exitError("pthread_cond_wait");
+            // signal to waiting thread
+            printf("p_mmapData->light = %d\r\n", p_mmapData->light);
+            printf("p_mmapData->vibrant = %d\r\n", p_mmapData->vibrant);
+            if (pthread_mutex_unlock(&(p_mmapData->mutex)) != 0) exitError("pthread_mutex_unlock");
+
+            const char lightVal[10];
+            sprintf(lightVal, "%d", p_mmapData->light);
+            const char vibrantVal[10];
+            sprintf(vibrantVal, "%d", p_mmapData->vibrant);
+
+            if (Map_AddOrUpdate(propertiesMap, "Light", lightVal) != MAP_OK)
+            {
+                LogError("unable to Map_AddOrUpdate lightVal");
+            }
+            if (Map_AddOrUpdate(propertiesMap, "Vibrantion", vibrantVal) != MAP_OK)
+            {
+                LogError("unable to Map_AddOrUpdate vibrantVal");
+            }
             msgConfig.size = strlen(HELLOWORLD_MESSAGE);
             msgConfig.source = HELLOWORLD_MESSAGE;
-    
             msgConfig.sourceProperties = propertiesMap;
 
             MESSAGE_HANDLE helloWorldMessage = Message_Create(&msgConfig);
@@ -55,29 +88,26 @@ int helloWorldThread(void *param)
             }
             else
             {
-                while (1)
+                if (Lock(handleData->lockHandle) == LOCK_OK)
                 {
-                    if (Lock(handleData->lockHandle) == LOCK_OK)
+                    if (handleData->stopThread)
                     {
-                        if (handleData->stopThread)
-                        {
-                            (void)Unlock(handleData->lockHandle);
-                            break; /*gets out of the thread*/
-                        }
-                        else
-                        {
-                            (void)MessageBus_Publish(handleData->busHandle, (MODULE_HANDLE)handleData, helloWorldMessage);
-                            (void)Unlock(handleData->lockHandle);
-                        }
+                        (void)Unlock(handleData->lockHandle);
+                        break; /*gets out of the thread*/
                     }
                     else
                     {
-                        /*shall retry*/
+                        (void)MessageBus_Publish(handleData->busHandle, (MODULE_HANDLE)handleData, helloWorldMessage);
+                        (void)Unlock(handleData->lockHandle);
                     }
-                    (void)ThreadAPI_Sleep(5000); /*every 5 seconds*/
                 }
-                Message_Destroy(helloWorldMessage);
+                else
+                {
+                    /*shall retry*/
+                }
+                    (void)ThreadAPI_Sleep(5000); /*every 5 seconds*/
             }
+                Message_Destroy(helloWorldMessage);
         }
     }
     return 0;

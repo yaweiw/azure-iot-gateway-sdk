@@ -30,7 +30,7 @@ include_directories(../../modules/common)
 
 add_executable(hello_world_sample ${hello_world_headers} ${modules_path_file} ${hello_world_sources})
 
-add_dependencies(hello_world_sample logger_hl)
+add_dependencies(hello_world_sample logger_hl iothubhttprelay_hl)
 
 
 target_link_libraries(hello_world_sample gateway)

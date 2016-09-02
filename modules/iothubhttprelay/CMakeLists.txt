@@ -2,85 +2,85 @@
 #Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 cmake_minimum_required(VERSION 2.8.11)
-#this is CMakeLists for the iothubhttp module
+#this is CMakeLists for the iothubhttprelay module
 
-set(iothubhttp_sources
-	./src/iothubhttp.c
+set(iothubhttprelay_sources
+	./src/iothubhttprelay.c
 )
 
-set(iothubhttp_headers
-	./inc/iothubhttp.h
+set(iothubhttprelay_headers
+	./inc/iothubhttprelay.h
 )
 
-set(iothubhttp_hl_sources
-	./src/iothubhttp_hl.c
+set(iothubhttprelay_hl_sources
+	./src/iothubhttprelay_hl.c
 )
 
-set(iothubhttp_hl_headers
-	./inc/iothubhttp_hl.h
+set(iothubhttprelay_hl_headers
+	./inc/iothubhttprelay_hl.h
 )
 
 include_directories(./inc)
 include_directories(${GW_INC})
 include_directories(${IOTHUB_CLIENT_INC_FOLDER})
 
-#this builds the IoTHubHTTP dynamic library
-add_library(iothubhttp MODULE
-    ${iothubhttp_sources}
-    ${iothubhttp_headers}
+#this builds the IoTHubHTTPRelay dynamic library
+add_library(iothubhttprelay MODULE
+    ${iothubhttprelay_sources}
+    ${iothubhttprelay_headers}
 )
-target_link_libraries(iothubhttp
+target_link_libraries(iothubhttprelay
     gateway
     iothub_client
     iothub_client_http_transport
 )
 
-#this builds the IoTHubHTTP static library
-add_library(iothubhttp_static
-    ${iothubhttp_sources}
-    ${iothubhttp_headers}
+#this builds the IoTHubHTTPRelay static library
+add_library(iothubhttprelay_static
+    ${iothubhttprelay_sources}
+    ${iothubhttprelay_headers}
 )
-target_compile_definitions(iothubhttp_static PRIVATE BUILD_MODULE_TYPE_STATIC)
-target_link_libraries(iothubhttp_static
+target_compile_definitions(iothubhttprelay_static PRIVATE BUILD_MODULE_TYPE_STATIC)
+target_link_libraries(iothubhttprelay_static
     gateway
     iothub_client
     iothub_client_http_transport
 )
 
-#this builds the IoTHubHTTP_HL dynamic library (by default it uses IoTHub Module linked statically)
-add_library(iothubhttp_hl MODULE
-    ${iothubhttp_hl_sources}
-    ${iothubhttp_hl_headers}
+#this builds the IoTHubHTTPRelay_HL dynamic library (by default it uses IoTHub Module linked statically)
+add_library(iothubhttprelay_hl MODULE
+    ${iothubhttprelay_hl_sources}
+    ${iothubhttprelay_hl_headers}
 )
-target_link_libraries(iothubhttp_hl
-    iothubhttp_static
-)
-
-#this builds the IoTHubHTTP_HL static library (by default it uses IoTHub Module linked statically)
-add_library(iothubhttp_hl_static
-    ${iothubhttp_hl_sources}
-    ${iothubhttp_hl_headers}
-)
-target_compile_definitions(iothubhttp_hl_static PRIVATE BUILD_MODULE_TYPE_STATIC)
-target_link_libraries(iothubhttp_hl_static
-    iothubhttp_static
+target_link_libraries(iothubhttprelay_hl
+    iothubhttprelay_static
 )
 
-linkSharedUtil(iothubhttp)
-linkSharedUtil(iothubhttp_static)
-linkSharedUtil(iothubhttp_hl)
-linkSharedUtil(iothubhttp_hl_static)
+#this builds the IoTHubHTTPRelay_HL static library (by default it uses IoTHub Module linked statically)
+add_library(iothubhttprelay_hl_static
+    ${iothubhttprelay_hl_sources}
+    ${iothubhttprelay_hl_headers}
+)
+target_compile_definitions(iothubhttprelay_hl_static PRIVATE BUILD_MODULE_TYPE_STATIC)
+target_link_libraries(iothubhttprelay_hl_static
+    iothubhttprelay_static
+)
 
-linkHttp(iothubhttp)
-linkHttp(iothubhttp_static)
-linkHttp(iothubhttp_hl)
-linkHttp(iothubhttp_hl_static)
+linkSharedUtil(iothubhttprelay)
+linkSharedUtil(iothubhttprelay_static)
+linkSharedUtil(iothubhttprelay_hl)
+linkSharedUtil(iothubhttprelay_hl_static)
 
-add_module_to_solution(iothubhttp)
+linkHttp(iothubhttprelay)
+linkHttp(iothubhttprelay_static)
+linkHttp(iothubhttprelay_hl)
+linkHttp(iothubhttprelay_hl_static)
+
+add_module_to_solution(iothubhttprelay)
 
 add_subdirectory(tests)
 
 if(install_executables)
-	install(TARGETS iothubhttp LIBRARY DESTINATION lib) 
-    install(TARGETS iothubhttp_hl LIBRARY DESTINATION lib) 
+	install(TARGETS iothubhttprelay LIBRARY DESTINATION lib) 
+    install(TARGETS iothubhttprelay_hl LIBRARY DESTINATION lib) 
 endif()

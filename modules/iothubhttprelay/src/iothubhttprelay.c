@@ -31,6 +31,7 @@ typedef struct IOTHUBHTTPRELAY_HANDLE_DATA_TAG
 
 static MODULE_HANDLE IoTHubHttpRelay_Create(MESSAGE_BUS_HANDLE busHandle, const void* configuration)
 {
+    LogInfo("Enter IoTHubHttpRelay_Create\r\n");
     IOTHUBHTTPRELAY_HANDLE_DATA *result;
     /*Codes_SRS_IOTHUBHTTP_02_001: [If busHandle is NULL then IoTHubHttp_Create shall fail and return NULL.]*/
     /*Codes_SRS_IOTHUBHTTP_02_002: [If configuration is NULL then IoTHubHttp_Create shall fail and return NULL.]*/

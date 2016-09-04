@@ -76,7 +76,7 @@ static void IoTHubHttpRelay_HL_Destroy(MODULE_HANDLE moduleHandle)
 }
 
 
-static void IoTHubHttp_HL_Receive(MODULE_HANDLE moduleHandle, MESSAGE_HANDLE messageHandle)
+static void IoTHubHttpRelay_HL_Receive(MODULE_HANDLE moduleHandle, MESSAGE_HANDLE messageHandle)
 {
     /*Codes_SRS_IOTHUBHTTP_HL_17_011: [ IoTHubHttp_HL_Receive shall pass the received parameters to the underlying IoTHubHttp receive function. ]*/
     MODULE_STATIC_GETAPIS(IOTHUBHTTPRELAY_MODULE)()->Module_Receive(moduleHandle, messageHandle);

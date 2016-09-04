@@ -25,7 +25,7 @@ typedef struct IOTHUBHTTPRELAY_CONFIG_TAG
 	const char* DeviceConnectionString;
 }IOTHUBHTTPRELAY_CONFIG; /*this needs to be passed to the Module_Create function*/
 
-MODULE_EXPORT const MODULE_APIS* MODULE_STATIC_GETAPIS(IOTHUBHTTP_MODULE)(void);
+MODULE_EXPORT const MODULE_APIS* MODULE_STATIC_GETAPIS(IOTHUBHTTPRELAY_MODULE)(void);
 
 #ifdef __cplusplus
 }

@@ -166,55 +166,43 @@ static void IoTHubHttp_Receive(MODULE_HANDLE moduleHandle, MESSAGE_HANDLE messag
     else
     {
         CONSTMAP_HANDLE properties = Message_GetProperties(messageHandle);
-        const char* source = ConstMap_GetValue(properties, SOURCE); /*properties is !=NULL by contract of Message*/
-
-        /*Codes_SRS_IOTHUBHTTP_02_010: [If message properties do not contain a property called "source" having the value set to "mapping" then IoTHubHttp_Receive shall do nothing.]*/
-        if (
-            (source == NULL) ||
-            (strcmp(source, MAPPING)!=0)
-            )
+        /*Codes_SRS_IOTHUBHTTP_02_011: [If message properties do not contain a property called "deviceName" having a non-NULL value then IoTHubHttp_Receive shall do nothing.]*/
+        const char* light = ConstMap_GetValue(properties, LIGHT);
+        if (light == NULL)
         {
-            /*do nothing, the properties do not contain either "source" or "source":"mapping"*/
-            LogError("properties do not contain source or source:mapping\r\n");
+            /*do nothing, not a message for this module*/
+            printf("LIGHT is NULL\r\n");
         }
         else
         {
-            /*Codes_SRS_IOTHUBHTTP_02_011: [If message properties do not contain a property called "deviceName" having a non-NULL value then IoTHubHttp_Receive shall do nothing.]*/
-            const char* light = ConstMap_GetValue(properties, LIGHT);
-            if (light == NULL)
+            /*Codes_SRS_IOTHUBHTTP_02_012: [If message properties do not contain a property called "deviceKey" having a non-NULL value then IoTHubHttp_Receive shall do nothing.]*/
+            const char* vibrant = ConstMap_GetValue(properties, VIBRANT);
+            if (vibrant == NULL)
             {
-                /*do nothing, not a message for this module*/
+                /*do nothing, incomplete properties*/
+                printf("VIBRANT is NULL\r\n");
             }
             else
             {
-                /*Codes_SRS_IOTHUBHTTP_02_012: [If message properties do not contain a property called "deviceKey" having a non-NULL value then IoTHubHttp_Receive shall do nothing.]*/
-                const char* vibrant = ConstMap_GetValue(properties, VIBRANT);
-                if (vibrant == NULL)
+                IOTHUBHTTPRELAY_HANDLE_DATA* moduleHandleData = moduleHandle;
+                IOTHUB_MESSAGE_HANDLE iotHubMessage = IoTHubMessage_CreateFromGWMessage(messageHandle);
+                if(iotHubMessage == NULL)
                 {
-                    /*do nothing, incomplete properties*/
+                    LogError("unable to IoTHubMessage_CreateFromGWMessage (internal)\r\n");
                 }
                 else
                 {
-                    IOTHUBHTTPRELAY_HANDLE_DATA* moduleHandleData = moduleHandle;
-                    IOTHUB_MESSAGE_HANDLE iotHubMessage = IoTHubMessage_CreateFromGWMessage(messageHandle);
-                    if(iotHubMessage == NULL)
+                    if (IoTHubClient_LL_SendEventAsync(moduleHandleData->iotHubClientHandle, iotHubMessage, NULL, NULL) != IOTHUB_CLIENT_OK)
                     {
-                        LogError("unable to IoTHubMessage_CreateFromGWMessage (internal)\r\n");
+                        LogError("unable to IoTHubClient_SendEventAsync\r\n");
                     }
                     else
                     {
-                        if (IoTHubClient_LL_SendEventAsync(moduleHandleData->iotHubClientHandle, iotHubMessage, NULL, NULL) != IOTHUB_CLIENT_OK)
-                        {
-                            LogError("unable to IoTHubClient_SendEventAsync\r\n");
-                        }
-                        else
-                        {
-                            LogInfo("all is fine, message has been accepted for delivery\r\n");
-                        }
-                        IoTHubClient_LL_DoWork(iotHubClientHandle);
-                        ThreadAPI_Sleep(1000);
-                        IoTHubMessage_Destroy(iotHubMessage);
+                        LogInfo("all is fine, message has been accepted for delivery\r\n");
                     }
+                    IoTHubClient_LL_DoWork(iotHubClientHandle);
+                    ThreadAPI_Sleep(1000);
+                    IoTHubMessage_Destroy(iotHubMessage);
                 }
             }
         }

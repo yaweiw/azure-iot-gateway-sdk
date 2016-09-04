@@ -78,7 +78,7 @@ linkHttp(iothubhttprelay_hl_static)
 
 add_module_to_solution(iothubhttprelay)
 
-add_subdirectory(tests)
+#add_subdirectory(tests)
 
 if(install_executables)
 	install(TARGETS iothubhttprelay LIBRARY DESTINATION lib) 

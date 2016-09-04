@@ -5,6 +5,15 @@
 #define IOTHUBHTTPRELAY_H
 
 #include "module.h"
+#ifdef linux
+#include <unistd.h>
+#include <fcntl.h>
+#include <pthread.h>
+#include <sys/mman.h>
+#endif
+#include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
 
 #ifdef __cplusplus
 extern "C"

@@ -5,16 +5,16 @@
 #define HELLO_WORLD_H
 
 #include "module.h"
-
-#include <fcntl.h>
+#ifdef linux
 #include <unistd.h>
+#include <fcntl.h>
+#include <pthread.h>
 #include <sys/mman.h>
-//#include <iostream>
+#endif
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
-//#include <cstdio>
-#include <pthread.h>
+
 
 #ifdef __cplusplus
 extern "C"

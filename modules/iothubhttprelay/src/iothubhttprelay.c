@@ -72,7 +72,7 @@ static MODULE_HANDLE IoTHubHttpRelay_Create(MESSAGE_BUS_HANDLE busHandle, const 
     return result;
 }
 
-static void IoTHubHttp_Destroy(MODULE_HANDLE moduleHandle)
+static void IoTHubHttpRelay_Destroy(MODULE_HANDLE moduleHandle)
 {
     if (moduleHandle == NULL)
     {
@@ -152,7 +152,7 @@ static IOTHUB_MESSAGE_HANDLE IoTHubMessage_CreateFromGWMessage(MESSAGE_HANDLE me
     return result;
 }
 
-static void IoTHubHttp_Receive(MODULE_HANDLE moduleHandle, MESSAGE_HANDLE messageHandle)
+static void IoTHubHttpRelay_Receive(MODULE_HANDLE moduleHandle, MESSAGE_HANDLE messageHandle)
 {
     /*Codes_SRS_IOTHUBHTTP_02_009: [If moduleHandle or messageHandle is NULL then IoTHubHttp_Receive shall do nothing.]*/
     if (
@@ -213,9 +213,9 @@ static void IoTHubHttp_Receive(MODULE_HANDLE moduleHandle, MESSAGE_HANDLE messag
 static const MODULE_APIS Module_GetAPIS_Impl = 
 {
     /*Codes_SRS_IOTHUBHTTP_02_026: [The MODULE_APIS structure shall have non-NULL Module_Create, Module_Destroy, and Module_Receive fields.]*/
-    IoTHubHttp_Create,
-    IoTHubHttp_Destroy,
-    IoTHubHttp_Receive
+    IoTHubHttpRelay_Create,
+    IoTHubHttpRelay_Destroy,
+    IoTHubHttpRelay_Receive
 };
 
 /*Codes_SRS_IOTHUBHTTP_02_025: [Module_GetAPIS shall return a non-NULL pointer.]*/

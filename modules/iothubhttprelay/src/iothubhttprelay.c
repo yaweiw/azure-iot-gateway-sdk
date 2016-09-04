@@ -206,9 +206,8 @@ static void IoTHubHttp_Receive(MODULE_HANDLE moduleHandle, MESSAGE_HANDLE messag
                 }
             }
         }
+        ConstMap_Destroy(properties);
     }
-    ConstMap_Destroy(properties);
-    /*Codes_SRS_IOTHUBHTTP_02_022: [IoTHubHttp_Receive shall return.]*/
 }
 
 static const MODULE_APIS Module_GetAPIS_Impl = 

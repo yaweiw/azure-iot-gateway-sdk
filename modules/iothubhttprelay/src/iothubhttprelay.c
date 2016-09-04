@@ -200,7 +200,7 @@ static void IoTHubHttp_Receive(MODULE_HANDLE moduleHandle, MESSAGE_HANDLE messag
                     {
                         LogInfo("all is fine, message has been accepted for delivery\r\n");
                     }
-                    IoTHubClient_LL_DoWork(iotHubClientHandle);
+                    IoTHubClient_LL_DoWork(moduleHandleData->iotHubClientHandle);
                     ThreadAPI_Sleep(1000);
                     IoTHubMessage_Destroy(iotHubMessage);
                 }

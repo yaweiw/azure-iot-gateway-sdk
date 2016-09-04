@@ -16,7 +16,6 @@
 #include "azure_c_shared_utility/vector.h"
 #include "azure_c_shared_utility/iot_logging.h"
 #include "azure_c_shared_utility/strings.h"
-#include "schemaserializer.h"
 #include "messageproperties.h"
 #include "message_bus.h"
 

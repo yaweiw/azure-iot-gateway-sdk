@@ -42,7 +42,7 @@ static MODULE_HANDLE IoTHubHttpRelay_Create(MESSAGE_BUS_HANDLE busHandle, const 
         (((const IOTHUBHTTPRELAY_CONFIG*)configuration)->DeviceConnectionString == NULL)
         )
     {
-        LogError("invalid arg busHandle=%p, configuration=%p, IoTHubName=%s IoTHubSuffix=%s\r\n", busHandle, configuration, (configuration!=NULL)?((const IOTHUBHTTP_CONFIG*)configuration)->DeviceConnectionString:"undefined behavior");
+        LogError("invalid arg busHandle=%p, configuration=%p, IoTHubName=%s IoTHubSuffix=%s\r\n", busHandle, configuration, (configuration!=NULL)?((const IOTHUBHTTPRELAY_CONFIG*)configuration)->DeviceConnectionString:"undefined behavior");
         result = NULL;
     }
     else

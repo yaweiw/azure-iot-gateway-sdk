@@ -48,31 +48,24 @@ static MODULE_HANDLE IoTHubHttpRelay_Create(MESSAGE_BUS_HANDLE busHandle, const 
     else
     {
         const char* devConStr = ((const IOTHUBHTTPRELAY_CONFIG*)configuration)->DeviceConnectionString;
-        if(serializer_init(NULL) != SERIALIZER_OK)
+        result = malloc(sizeof(IOTHUBHTTPRELAY_HANDLE_DATA));
+        if (result == NULL)
         {
-            LogInfo("Failed on serializer_init\r\n");
+            LogError("malloc returned NULL\r\n");
+            /*return as is*/
         }
         else
         {
-            result = malloc(sizeof(IOTHUBHTTPRELAY_HANDLE_DATA));
-            if (result == NULL)
+            result->iotHubClientHandle = IoTHubClient_LL_CreateFromConnectionString(devConStr, HTTP_Protocol);
+            if (result->iotHubClientHandle == NULL)
             {
-                LogError("malloc returned NULL\r\n");
-                /*return as is*/
+                free(result);
+                result = NULL;
+                LogError("iotHubClientHandle returned NULL\r\n");
             }
             else
             {
-                result->iotHubClientHandle = IoTHubClient_LL_CreateFromConnectionString(devConStr, HTTP_Protocol);
-                if (result->iotHubClientHandle == NULL)
-                {
-                    free(result);
-                    result = NULL;
-                    LogError("iotHubClientHandle returned NULL\r\n");
-                }
-                else
-                {
-                    result->busHandle = busHandle;
-                }
+                result->busHandle = busHandle;
             }
         }
     }

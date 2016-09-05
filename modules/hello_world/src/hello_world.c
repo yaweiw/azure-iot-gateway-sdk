@@ -64,24 +64,10 @@ int helloWorldThread(void *param)
             if (pthread_mutex_lock(&(p_mmapData->mutex)) != 0) exitError("pthread_mutex_lock");
             if (pthread_cond_wait(&(p_mmapData->cond), &(p_mmapData->mutex)) != 0) exitError("pthread_cond_wait");
             // signal to waiting thread
-            if(p_mmapData->light != NULL)
-            {
-                printf("p_mmapData->light = %d\r\n", p_mmapData->light);
-            }
-            else
-            {
-                printf("p_mmapData->light is NULL\r\n");
-            }
-            if(p_mmapData->vibrant != NULL)
-            {
-                printf("p_mmapData->vibrant = %d\r\n", p_mmapData->vibrant);
-            }
-            else
-            {
-                printf("p_mmapData->vibrant is NULL\r\n");
-            }
-            if (pthread_mutex_unlock(&(p_mmapData->mutex)) != 0) exitError("pthread_mutex_unlock");
+            printf("p_mmapData->light = %d\r\n", p_mmapData->light);
+            printf("p_mmapData->vibrant = %d\r\n", p_mmapData->vibrant);
 
+            if (pthread_mutex_unlock(&(p_mmapData->mutex)) != 0) exitError("pthread_mutex_unlock");
             char lightVal[10];
             sprintf(lightVal, "%d", p_mmapData->light);
             char vibrantVal[10];

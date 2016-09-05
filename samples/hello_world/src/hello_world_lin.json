@@ -10,6 +10,14 @@
             "module name" : "hello_world",
             "module path" : "./modules/hello_world/libhello_world_hl.so",
             "args" : null
+        },
+        {
+            "module name": "IoTHubHttpRelay",
+            "module path": "./modules/iothubhttprelay/libiothubhttprelay_hl.so",
+            "args":
+            {
+                "DeviceConnectionString": "AA"
+            }
         }
     ]
 }

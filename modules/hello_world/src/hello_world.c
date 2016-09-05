@@ -61,9 +61,12 @@ int helloWorldThread(void *param)
         Print("before while(1)");
         while (1)
         {
+            Print("before pthread_mutex_lock");
             if (pthread_mutex_lock(&(p_mmapData->mutex)) != 0) exitError("pthread_mutex_lock");
+            Print("before pthread_cond_wait");
             if (pthread_cond_wait(&(p_mmapData->cond), &(p_mmapData->mutex)) != 0) exitError("pthread_cond_wait");
             // signal to waiting thread
+            Print("before printf");
             printf("p_mmapData->light = %d\r\n", p_mmapData->light);
             printf("p_mmapData->vibrant = %d\r\n", p_mmapData->vibrant);
 

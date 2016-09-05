@@ -28,17 +28,13 @@ include_directories(./inc ${IOTHUB_CLIENT_INC_FOLDER})
 include_directories(${GW_INC})
 include_directories(../../modules/common)
 
-####by yaweiw####
-set(THREADS_PREFER_PTHREAD_FLAG ON)
-find_package(Threads REQUIRED)
-####by yaweiw####
+
 
 add_executable(hello_world_sample ${hello_world_headers} ${modules_path_file} ${hello_world_sources})
 
 add_dependencies(hello_world_sample logger_hl iothubhttprelay_hl)
 
-
-target_link_libraries(hello_world_sample gateway ${CMAKE_THREAD_LIBS_INIT})
+target_link_libraries(hello_world_sample gateway)
 linkSharedUtil(hello_world_sample)
 
 add_sample_to_solution(hello_world_sample)

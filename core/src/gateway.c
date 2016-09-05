@@ -26,8 +26,6 @@ static void destroy_properties_internal(GATEWAY_PROPERTIES* properties);
 
 GATEWAY_HANDLE Gateway_Create_From_JSON(const char* file_path)
 {
-    printf("in Gateway_Create_From_JSON\r\n");
-    printf("file_path: %s\r\n", file_path);
     GATEWAY_HANDLE gw;
 
     if (file_path != NULL)
@@ -36,6 +34,8 @@ GATEWAY_HANDLE Gateway_Create_From_JSON(const char* file_path)
         
         /*Codes_SRS_GATEWAY_14_002: [The function shall use parson to read the file and parse the JSON string to a parson JSON_Value structure.]*/
         root_value = json_parse_file(file_path);
+        for()
+
         if (root_value != NULL)
         {
             /*Codes_SRS_GATEWAY_14_004: [The function shall traverse the JSON_Value object to initialize a GATEWAY_PROPERTIES instance.]*/

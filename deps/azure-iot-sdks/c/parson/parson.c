@@ -883,8 +883,6 @@ static int append_string(char *buf, const char *string) {
 
 /* Parser API */
 JSON_Value * json_parse_file(const char *filename) {
-    printf("in json_parse_file\r\n");
-    
     char *file_contents = read_file(filename);
     JSON_Value *output_value = NULL;
     if (file_contents == NULL)

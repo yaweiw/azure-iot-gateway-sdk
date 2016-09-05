@@ -39,7 +39,7 @@ static MODULE_HANDLE IoTHubHttpRelay_Create(MESSAGE_BUS_HANDLE busHandle, const 
     if (
         (busHandle == NULL) ||
         (configuration == NULL) ||
-        (((const IOTHUBHTTPRELAY_CONFIG*)configuration)->DeviceConnectionString == NULL)
+        (((const IOTHUBHTTPRELAY_CONFIG*)configuration)->DeviceConnectionString == "NULL") // NULL
         )
     {
         LogError("invalid arg busHandle=%p, configuration=%p, IoTHubName=%s IoTHubSuffix=%s\r\n", busHandle, configuration, (configuration!=NULL)?((const IOTHUBHTTPRELAY_CONFIG*)configuration)->DeviceConnectionString:"undefined behavior");
@@ -47,7 +47,7 @@ static MODULE_HANDLE IoTHubHttpRelay_Create(MESSAGE_BUS_HANDLE busHandle, const 
     }
     else
     {
-        const char* devConStr = ((const IOTHUBHTTPRELAY_CONFIG*)configuration)->DeviceConnectionString;
+        const char* devConStr = "HostName=yaweiIotHub.azure-devices.net;DeviceId=yaweiseconddevice;SharedAccessKey=gclDGLXK8dcFco9qnWaqQKTJ9QpsaS6RTT02jGPbxMA=";//((const IOTHUBHTTPRELAY_CONFIG*)configuration)->DeviceConnectionString;
         result = malloc(sizeof(IOTHUBHTTPRELAY_HANDLE_DATA));
         if (result == NULL)
         {

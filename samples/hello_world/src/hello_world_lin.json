@@ -2,6 +2,11 @@
     "modules" :
     [
         {
+            "module name" : "logger_hl",
+            "module path" : "./modules/logger/liblogger_hl.so",
+            "args" : {"filename":"log.txt"}
+        },
+        {
             "module name" : "hello_world",
             "module path" : "./modules/hello_world/libhello_world_hl.so",
             "args" : null
@@ -11,7 +16,7 @@
             "module path": "./modules/iothubhttprelay/libiothubhttprelay_hl.so",
             "args":
             {
-                "DeviceConnectionString": "HostName=yaweiIotHub.azure-devices.net;DeviceId=yaweiseconddevice;SharedAccessKey=gclDGLXK8dcFco9qnWaqQKTJ9QpsaS6RTT02jGPbxMA="
+                "DeviceConnectionString": "AA"
             }
         }
     ]

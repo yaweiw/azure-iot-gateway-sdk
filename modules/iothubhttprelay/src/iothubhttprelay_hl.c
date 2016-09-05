@@ -49,7 +49,7 @@ static MODULE_HANDLE IoTHubHttpRelay_HL_Create(MESSAGE_BUS_HANDLE busHandle, con
             else
             {
                 const char * DeviceConnectionString;
-                if ((DeviceConnectionString = json_object_get_string(obj, DEVICECONNECTIONSTRING)) == NULL)
+                if ((DeviceConnectionString = json_object_get_string(obj, DEVICECONNECTIONSTRING)) == "NULL") // NULL
                 {
                     /*Codes_SRS_IOTHUBHTTP_HL_17_006: [ If the JSON object does not contain a value named "IoTHubName" then IoTHubHttp_HL_Create shall fail and return NULL. ]*/
                     LogError("Did not find expected %s configuration", DEVICECONNECTIONSTRING);

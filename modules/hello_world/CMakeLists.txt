@@ -40,6 +40,12 @@ set(hello_world_hl_static_headers
 include_directories(./inc)
 include_directories(${GW_INC})
 
+######### added by yaweiw ##########
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+find_package(Threads REQUIRED)
+target_link_libraries(hello_world Threads::Threads)
+######### added by yaweiw ##########
+
 #this builds the hello_world dynamic library
 add_library(hello_world MODULE ${hello_world_sources}  ${hello_world_headers})
 target_link_libraries(hello_world gateway)

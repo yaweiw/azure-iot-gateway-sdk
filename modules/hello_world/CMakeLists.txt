@@ -41,11 +41,7 @@ include_directories(./inc)
 include_directories(${GW_INC})
 
 
-######### added by yaweiw ##########
-set(THREADS_PREFER_PTHREAD_FLAG ON)
-find_package(Threads REQUIRED)
-target_link_libraries(hello_world ${CMAKE_THREAD_LIBS_INIT})
-######### added by yaweiw ##########
+
 
 #this builds the hello_world dynamic library
 add_library(hello_world MODULE ${hello_world_sources}  ${hello_world_headers})
@@ -65,6 +61,15 @@ add_library(hello_world_hl_static ${hello_world_hl_static_sources} ${hello_world
 target_compile_definitions(hello_world_hl_static PRIVATE BUILD_MODULE_TYPE_STATIC)
 target_link_libraries(hello_world_hl_static hello_world_static gateway)
 
+######### added by yaweiw ##########
+# got to put it here or  Cannot specify link libraries for target "hello_world" which is not built by this project.
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+find_package(Threads REQUIRED)
+target_link_libraries(hello_world ${CMAKE_THREAD_LIBS_INIT})
+target_link_libraries(hello_world_static ${CMAKE_THREAD_LIBS_INIT})
+target_link_libraries(hello_world_hl ${CMAKE_THREAD_LIBS_INIT})
+target_link_libraries(hello_world_hl_static ${CMAKE_THREAD_LIBS_INIT})
+######### added by yaweiw ##########
 
 linkSharedUtil(hello_world)
 linkSharedUtil(hello_world_static)

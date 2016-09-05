@@ -26,6 +26,8 @@ static void destroy_properties_internal(GATEWAY_PROPERTIES* properties);
 
 GATEWAY_HANDLE Gateway_Create_From_JSON(const char* file_path)
 {
+    printf("in Gateway_Create_From_JSON\r\n");
+    printf("file_path: %s\r\n", file_path);
     GATEWAY_HANDLE gw;
 
     if (file_path != NULL)

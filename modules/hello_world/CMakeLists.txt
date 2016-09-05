@@ -41,9 +41,13 @@ include_directories(./inc)
 include_directories(${GW_INC})
 
 ######### added by yaweiw ##########
-set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
-target_link_libraries(hello_world ${CMAKE_THREAD_LIBS_INIT})
+if(THREADS_HAVE_PTHREAD_ARG)
+  target_compile_options(PUBLIC my_app "-pthread")
+endif()
+if(CMAKE_THREAD_LIBS_INIT)
+  target_link_libraries(my_app "${CMAKE_THREAD_LIBS_INIT}")
+endif()
 ######### added by yaweiw ##########
 
 #this builds the hello_world dynamic library

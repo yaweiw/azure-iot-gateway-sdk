@@ -40,14 +40,9 @@ set(hello_world_hl_static_headers
 include_directories(./inc)
 include_directories(${GW_INC})
 
-######### added by yaweiw ##########
-set(THREADS_PREFER_PTHREAD_FLAG ON)
-find_package(Threads REQUIRED)
-######### added by yaweiw ##########
-
 #this builds the hello_world dynamic library
 add_library(hello_world MODULE ${hello_world_sources}  ${hello_world_headers})
-target_link_libraries(hello_world gateway ${CMAKE_THREAD_LIBS_INIT})
+target_link_libraries(hello_world gateway)
 
 #this builds the hello_world static library
 add_library(hello_world_static  ${hello_world_static_sources} ${hello_world_static_headers})
@@ -62,6 +57,12 @@ target_link_libraries(hello_world_hl hello_world_static gateway)
 add_library(hello_world_hl_static ${hello_world_hl_static_sources} ${hello_world_hl_static_headers})
 target_compile_definitions(hello_world_hl_static PRIVATE BUILD_MODULE_TYPE_STATIC)
 target_link_libraries(hello_world_hl_static hello_world_static gateway)
+
+######### added by yaweiw ##########
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+find_package(Threads REQUIRED)
+target_link_libraries(hello_world ${CMAKE_THREAD_LIBS_INIT})
+######### added by yaweiw ##########
 
 linkSharedUtil(hello_world)
 linkSharedUtil(hello_world_static)

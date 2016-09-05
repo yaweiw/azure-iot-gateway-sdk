@@ -9,7 +9,8 @@
         {
             "module name": "IoTHubHttpRelay",
             "module path": "./modules/iothubhttprelay/libiothubhttprelay_hl.so",
-            "args": {
+            "args":
+            {
                 "DeviceConnectionString": "HostName=yaweiIotHub.azure-devices.net;DeviceId=yaweiseconddevice;SharedAccessKey=gclDGLXK8dcFco9qnWaqQKTJ9QpsaS6RTT02jGPbxMA="
             }
         }

@@ -85,7 +85,7 @@ GATEWAY_HANDLE Gateway_Create_From_JSON(const char* file_path)
         gw = NULL;
         LogError("Input file path is NULL.");
     }
-
+    printf("before return gw\r\n");
     return gw;
 }
 

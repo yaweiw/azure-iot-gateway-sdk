@@ -43,7 +43,7 @@ include_directories(${GW_INC})
 ######### added by yaweiw ##########
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
-target_link_libraries(hello_world Threads::Threads)
+target_link_libraries(hello_world ${CMAKE_THREAD_LIBS_INIT})
 ######### added by yaweiw ##########
 
 #this builds the hello_world dynamic library

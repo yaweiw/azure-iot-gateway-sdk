@@ -12,10 +12,10 @@
 #include "azure_c_shared_utility/iot_logging.h"
 #include "parson.h"
 
-#define LIGHT light
-#define VIBRANT vibrant
+#define LIGHT "light"
+#define VIBRANT "vibrant"
 
-#define DEVICECONNECTIONSTRING DeviceConnectionString
+#define DEVICECONNECTIONSTRING "DeviceConnectionString"
 
 static MODULE_HANDLE IoTHubHttpRelay_HL_Create(MESSAGE_BUS_HANDLE busHandle, const void* configuration)
 {

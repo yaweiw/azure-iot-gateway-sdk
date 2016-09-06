@@ -19,8 +19,8 @@
 #include "messageproperties.h"
 #include "message_bus.h"
 
-#define LIGHT light
-#define VIBRANT vibrant
+#define LIGHT "light"
+#define VIBRANT "vibrant"
 
 typedef struct IOTHUBHTTPRELAY_HANDLE_DATA_TAG
 {
@@ -30,7 +30,6 @@ typedef struct IOTHUBHTTPRELAY_HANDLE_DATA_TAG
 
 static MODULE_HANDLE IoTHubHttpRelay_Create(MESSAGE_BUS_HANDLE busHandle, const void* configuration)
 {
-    LogInfo("Enter IoTHubHttpRelay_Create\r\n");
     IOTHUBHTTPRELAY_HANDLE_DATA *result;
     /*Codes_SRS_IOTHUBHTTP_02_001: [If busHandle is NULL then IoTHubHttp_Create shall fail and return NULL.]*/
     /*Codes_SRS_IOTHUBHTTP_02_002: [If configuration is NULL then IoTHubHttp_Create shall fail and return NULL.]*/
@@ -47,7 +46,7 @@ static MODULE_HANDLE IoTHubHttpRelay_Create(MESSAGE_BUS_HANDLE busHandle, const 
     }
     else
     {
-        const char* devConStr = "HostName=yaweiIotHub.azure-devices.net;DeviceId=yaweiseconddevice;SharedAccessKey=gclDGLXK8dcFco9qnWaqQKTJ9QpsaS6RTT02jGPbxMA=";//((const IOTHUBHTTPRELAY_CONFIG*)configuration)->DeviceConnectionString;
+        const char* devConStr = ((const IOTHUBHTTPRELAY_CONFIG*)configuration)->DeviceConnectionString;
         result = malloc(sizeof(IOTHUBHTTPRELAY_HANDLE_DATA));
         if (result == NULL)
         {

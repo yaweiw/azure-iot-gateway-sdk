@@ -25,19 +25,28 @@ typedef struct HELLOWORLD_HANDLE_DATA_TAG
 
 #define HELLOWORLD_MESSAGE "hello world"
 
+void exitError(const char* errMsg) {
+  perror(errMsg);
+  exit(EXIT_FAILURE);
+}
+
+void Print(const char* msg) {
+  printf("%s\r\n", msg);
+}
+
 int helloWorldThread(void *param)
 {
-    printf("in helloWorldThread");
+    Print("in helloWorldThread");
     MMAPDATA_HANDLE p_mmapData; // here our mmapped data will be accessed
     int fd_mmapFile; // file descriptor for memory mapped file
     /* Create shared memory object and set its size */
     fd_mmapFile = open(mmapFilePath, O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
-    printf("after open");
-    if (fd_mmapFile == -1) printf("fd error; check errno for details");
+    Print("after open");
+    if (fd_mmapFile == -1) exitError("fd error; check errno for details");
     /* Map shared memory object read-writable */
     p_mmapData = (MMAPDATA_HANDLE)(mmap(NULL, sizeof(MMAPDATA), PROT_READ | PROT_WRITE, MAP_SHARED, fd_mmapFile, 0));
-    printf("after mmap");
-    if (p_mmapData == MAP_FAILED) printf("mmap error");
+    Print("after mmap");
+    if (p_mmapData == MAP_FAILED) exitError("mmap error");
 
     HELLOWORLD_HANDLE_DATA* handleData = param;
 
@@ -45,35 +54,23 @@ int helloWorldThread(void *param)
     MAP_HANDLE propertiesMap = Map_Create(NULL);
     if(propertiesMap == NULL)
     {
-        printf("unable to create a Map");
+        LogError("unable to create a Map");
     }
     else
     {
-        printf("before while(1)");
+        Print("before while(1)");
         while (1)
         {
-            printf("before pthread_mutex_lock");
-            if (pthread_mutex_lock(&(p_mmapData->mutex)) != 0)
-            {
-                printf("pthread_mutex_lock error");
-                return 1;
-            }
-            printf("before pthread_cond_wait");
-            if (pthread_cond_wait(&(p_mmapData->cond), &(p_mmapData->mutex)) != 0)
-            {
-                printf("pthread_cond_wait error");
-                return 1;
-            }
+            Print("before pthread_mutex_lock");
+            if (pthread_mutex_lock(&(p_mmapData->mutex)) != 0) exitError("pthread_mutex_lock");
+            Print("before pthread_cond_wait");
+            if (pthread_cond_wait(&(p_mmapData->cond), &(p_mmapData->mutex)) != 0) exitError("pthread_cond_wait");
             // signal to waiting thread
-            printf("before printf");
+            Print("before printf");
             printf("p_mmapData->light = %d\r\n", p_mmapData->light);
             printf("p_mmapData->vibrant = %d\r\n", p_mmapData->vibrant);
 
-            if (pthread_mutex_unlock(&(p_mmapData->mutex)) != 0)
-            {
-                printf("pthread_mutex_unlock");
-                return 1;
-            }
+            if (pthread_mutex_unlock(&(p_mmapData->mutex)) != 0) exitError("pthread_mutex_unlock");
             char lightVal[10];
             sprintf(lightVal, "%d", p_mmapData->light);
             char vibrantVal[10];
@@ -81,11 +78,11 @@ int helloWorldThread(void *param)
 
             if (Map_AddOrUpdate(propertiesMap, "Light", lightVal) != MAP_OK)
             {
-                printf("unable to Map_AddOrUpdate lightVal");
+                LogError("unable to Map_AddOrUpdate lightVal");
             }
             if (Map_AddOrUpdate(propertiesMap, "Vibrantion", vibrantVal) != MAP_OK)
             {
-                printf("unable to Map_AddOrUpdate vibrantVal");
+                LogError("unable to Map_AddOrUpdate vibrantVal");
             }
             msgConfig.size = strlen(HELLOWORLD_MESSAGE);
             msgConfig.source = HELLOWORLD_MESSAGE;
@@ -94,7 +91,7 @@ int helloWorldThread(void *param)
             MESSAGE_HANDLE helloWorldMessage = Message_Create(&msgConfig);
             if (helloWorldMessage == NULL)
             {
-                printf("unable to create \"hello world\" message");
+                LogError("unable to create \"hello world\" message");
             }
             else
             {
@@ -119,7 +116,7 @@ int helloWorldThread(void *param)
             }
                 Message_Destroy(helloWorldMessage);
         }
-        printf("after while(1)");
+        Print("after while(1)");
     }
     return 0;
 }

@@ -89,6 +89,12 @@ int helloWorldThread(void *param)
             else
             {
                 printf("helloWorldMessage: %s\r\n", CONSTBUFFER_GetContent(Message_GetContent(helloWorldMessage))->buffer);
+                CONSTMAP_HANDLE constmap = Message_GetProperties(helloWorldMessage);
+                MAP_HANDLE map = (MAP_HANDLE)constmap->map;
+
+                STRING_HANDLE str = Map_ToJSON(map);
+                printf("Map_ToJSON: %s\r\n", str->s);
+                 
                 if (Lock(handleData->lockHandle) == LOCK_OK)
                 {
                     if (handleData->stopThread)

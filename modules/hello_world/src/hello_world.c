@@ -88,7 +88,7 @@ int helloWorldThread(void *param)
             }
             else
             {
-                printf("helloWorldMessage: %s\r\n", CONSTBUFFER_GetContent(helloWorldMessage->content)->buffer);
+                printf("helloWorldMessage: %s\r\n", CONSTBUFFER_GetContent(Message_GetContent(helloWorldMessage))->buffer);
                 if (Lock(handleData->lockHandle) == LOCK_OK)
                 {
                     if (handleData->stopThread)

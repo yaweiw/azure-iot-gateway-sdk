@@ -36,8 +36,8 @@ int main(int argc, char** argv)
         {
             printf("gateway successfully created from JSON\n");
             printf("gateway shall run until ENTER is pressed\n");
-            //(void)getchar();
-
+            (void)getchar();
+/*
             while(getchar() != 'e')
             {
                 if (pthread_mutex_lock(&(p_mmapData->mutex)) != 0) printf("pthread_mutex_lock err\n");
@@ -47,7 +47,7 @@ int main(int argc, char** argv)
                 printf("p_mmapData->vibrant = %d\r\n", p_mmapData->vibrant);
                 if (pthread_mutex_unlock(&(p_mmapData->mutex)) != 0) printf("pthread_mutex_unlock err\n");
             }
-
+*/
             Gateway_LL_Destroy(gateway);
         }
     }

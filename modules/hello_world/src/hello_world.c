@@ -36,16 +36,13 @@ void Print(const char* msg) {
 
 int helloWorldThread(void *param)
 {
-    Print("in helloWorldThread");
     MMAPDATA_HANDLE p_mmapData; // here our mmapped data will be accessed
     int fd_mmapFile; // file descriptor for memory mapped file
     /* Create shared memory object and set its size */
     fd_mmapFile = open(mmapFilePath, O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
-    Print("after open");
     if (fd_mmapFile == -1) exitError("fd error; check errno for details");
     /* Map shared memory object read-writable */
     p_mmapData = (MMAPDATA_HANDLE)(mmap(NULL, sizeof(MMAPDATA), PROT_READ | PROT_WRITE, MAP_SHARED, fd_mmapFile, 0));
-    Print("after mmap");
     if (p_mmapData == MAP_FAILED) exitError("mmap error");
 
     HELLOWORLD_HANDLE_DATA* handleData = param;
@@ -58,15 +55,11 @@ int helloWorldThread(void *param)
     }
     else
     {
-        Print("before while(1)");
         while (1)
         {
-            Print("before pthread_mutex_lock");
             if (pthread_mutex_lock(&(p_mmapData->mutex)) != 0) exitError("pthread_mutex_lock");
-            Print("before pthread_cond_wait");
             if (pthread_cond_wait(&(p_mmapData->cond), &(p_mmapData->mutex)) != 0) exitError("pthread_cond_wait");
             // signal to waiting thread
-            Print("before printf");
             printf("p_mmapData->light = %d\r\n", p_mmapData->light);
             printf("p_mmapData->vibrant = %d\r\n", p_mmapData->vibrant);
 
@@ -95,6 +88,7 @@ int helloWorldThread(void *param)
             }
             else
             {
+                printf("helloWorldMessage: %s\r\n", CONSTBUFFER_GetContent(helloWorldMessage->content)->buffer);
                 if (Lock(handleData->lockHandle) == LOCK_OK)
                 {
                     if (handleData->stopThread)

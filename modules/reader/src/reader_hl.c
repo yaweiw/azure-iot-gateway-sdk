@@ -9,8 +9,8 @@
 #include "module.h"
 #include "azure_c_shared_utility/iot_logging.h"
 #include <stdio.h>
-#include "Reader.h"
-#include "Reader_hl.h"
+#include "reader.h"
+#include "reader_hl.h"
 
 static MODULE_HANDLE READER_HL_Create(MESSAGE_BUS_HANDLE busHandle, const void* configuration)
 {

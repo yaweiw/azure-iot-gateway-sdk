@@ -7,8 +7,8 @@
             "args" : {"filename":"log.txt"}
         },
         {
-            "module name" : "hello_world",
-            "module path" : "./modules/hello_world/libhello_world_hl.so",
+            "module name" : "reader",
+            "module path" : "./modules/reader/libreader_hl.so",
             "args" : null
         },
         {

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-#ifndef HELLO_WORLD_H
-#define HELLO_WORLD_H
+#ifndef READER_H
+#define READER_H
 
 #include "module.h"
 #ifdef linux
@@ -21,7 +21,7 @@ extern "C"
 {
 #endif
 
-MODULE_EXPORT const MODULE_APIS* MODULE_STATIC_GETAPIS(HELLOWORLD_MODULE)(void);
+MODULE_EXPORT const MODULE_APIS* MODULE_STATIC_GETAPIS(READER_MODULE)(void);
 
 #ifdef __cplusplus
 }
@@ -40,4 +40,4 @@ typedef struct mmapData_TAG {
 typedef MMAPDATA* MMAPDATA_HANDLE;
 
 
-#endif /*HELLO_WORLD_H*/
+#endif /*READER_H*/

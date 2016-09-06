@@ -7,8 +7,8 @@
             "args" : {"filename":"d:\\log.txt"}
         },
         {
-            "module name" : "hello_world",
-            "module path" : "..\\..\\..\\modules\\hello_world\\Debug\\hello_world_hl.dll",
+            "module name" : "reader",
+            "module path" : "..\\..\\..\\modules\\reader\\Debug\\reader_hl.dll",
             "args" : null
         },
         {

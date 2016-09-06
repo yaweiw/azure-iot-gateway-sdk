@@ -10,7 +10,7 @@
 #include "azure_c_shared_utility/iot_logging.h"
 
 #include "azure_c_shared_utility/threadapi.h"
-#include "hello_world.h"
+#include "reader.h"
 #include "azure_c_shared_utility/iot_logging.h"
 #include "azure_c_shared_utility/lock.h"
 
@@ -22,16 +22,16 @@
 #define VIBRANT "VIBRAT"
 #endif
 
-typedef struct HELLOWORLD_HANDLE_DATA_TAG
+typedef struct READER_HANDLE_DATA_TAG
 {
     THREAD_HANDLE threadHandle;
     LOCK_HANDLE lockHandle;
     int stopThread;
     MESSAGE_BUS_HANDLE busHandle;
 
-}HELLOWORLD_HANDLE_DATA;
+}READER_HANDLE_DATA;
 
-#define HELLOWORLD_MESSAGE "hello world"
+#define READER_MESSAGE "Message from READER Module"
 
 void exitError(const char* errMsg) {
   perror(errMsg);
@@ -42,7 +42,7 @@ void Print(const char* msg) {
   printf("%s\r\n", msg);
 }
 
-int helloWorldThread(void *param)
+int READERThread(void *param)
 {
     MMAPDATA_HANDLE p_mmapData; // here our mmapped data will be accessed
     int fd_mmapFile; // file descriptor for memory mapped file
@@ -53,7 +53,7 @@ int helloWorldThread(void *param)
     p_mmapData = (MMAPDATA_HANDLE)(mmap(NULL, sizeof(MMAPDATA), PROT_READ | PROT_WRITE, MAP_SHARED, fd_mmapFile, 0));
     if (p_mmapData == MAP_FAILED) exitError("mmap error");
 
-    HELLOWORLD_HANDLE_DATA* handleData = param;
+    READER_HANDLE_DATA* handleData = param;
 
     MESSAGE_CONFIG msgConfig;
     MAP_HANDLE propertiesMap = Map_Create(NULL);
@@ -85,12 +85,12 @@ int helloWorldThread(void *param)
             {
                 LogError("unable to Map_AddOrUpdate vibrantVal");
             }
-            msgConfig.size = strlen(HELLOWORLD_MESSAGE);
-            msgConfig.source = HELLOWORLD_MESSAGE;
+            msgConfig.size = strlen(READER_MESSAGE);
+            msgConfig.source = READER_MESSAGE;
             msgConfig.sourceProperties = propertiesMap;
 
-            MESSAGE_HANDLE helloWorldMessage = Message_Create(&msgConfig);
-            if (helloWorldMessage == NULL)
+            MESSAGE_HANDLE READERMessage = Message_Create(&msgConfig);
+            if (READERMessage == NULL)
             {
                 LogError("unable to create \"hello world\" message");
             }
@@ -105,7 +105,7 @@ int helloWorldThread(void *param)
                     }
                     else
                     {
-                        (void)MessageBus_Publish(handleData->busHandle, (MODULE_HANDLE)handleData, helloWorldMessage);
+                        (void)MessageBus_Publish(handleData->busHandle, (MODULE_HANDLE)handleData, READERMessage);
                         (void)Unlock(handleData->lockHandle);
                     }
                 }
@@ -115,16 +115,16 @@ int helloWorldThread(void *param)
                 }
                 (void)ThreadAPI_Sleep(1000); /*every 1 seconds*/
             }
-                Message_Destroy(helloWorldMessage);
+                Message_Destroy(READERMessage);
         }
         Print("after while(1)");
     }
     return 0;
 }
 
-static MODULE_HANDLE HelloWorld_Create(MESSAGE_BUS_HANDLE busHandle, const void* configuration)
+static MODULE_HANDLE READER_Create(MESSAGE_BUS_HANDLE busHandle, const void* configuration)
 {
-    HELLOWORLD_HANDLE_DATA* result;
+    READER_HANDLE_DATA* result;
     if (
         (busHandle == NULL) /*configuration is not used*/
         )
@@ -134,7 +134,7 @@ static MODULE_HANDLE HelloWorld_Create(MESSAGE_BUS_HANDLE busHandle, const void*
     }
     else
     {
-        result = malloc(sizeof(HELLOWORLD_HANDLE_DATA));
+        result = malloc(sizeof(READER_HANDLE_DATA));
         if(result == NULL)
         {
             LogError("unable to malloc");
@@ -152,7 +152,7 @@ static MODULE_HANDLE HelloWorld_Create(MESSAGE_BUS_HANDLE busHandle, const void*
             {
                 result->stopThread = 0;
                 result->busHandle = busHandle;
-                if (ThreadAPI_Create(&result->threadHandle, helloWorldThread, result) != THREADAPI_OK)
+                if (ThreadAPI_Create(&result->threadHandle, READERThread, result) != THREADAPI_OK)
                 {
                     LogError("failed to spawn a thread");
                     (void)Lock_Deinit(result->lockHandle);
@@ -169,10 +169,10 @@ static MODULE_HANDLE HelloWorld_Create(MESSAGE_BUS_HANDLE busHandle, const void*
     return result;
 }
 
-static void HelloWorld_Destroy(MODULE_HANDLE module)
+static void READER_Destroy(MODULE_HANDLE module)
 {
     /*first stop the thread*/
-    HELLOWORLD_HANDLE_DATA* handleData = module;
+    READER_HANDLE_DATA* handleData = module;
     int notUsed;
     if (Lock(handleData->lockHandle) != LOCK_OK)
     {
@@ -194,23 +194,23 @@ static void HelloWorld_Destroy(MODULE_HANDLE module)
     free(handleData);
 }
 
-static void HelloWorld_Receive(MODULE_HANDLE moduleHandle, MESSAGE_HANDLE messageHandle)
+static void READER_Receive(MODULE_HANDLE moduleHandle, MESSAGE_HANDLE messageHandle)
 {
-    /*no action, HelloWorld is not interested in any messages*/
+    /*no action, READER is not interested in any messages*/
 }
 
-static const MODULE_APIS HelloWorld_APIS_all =
+static const MODULE_APIS READER_APIS_all =
 {
-	HelloWorld_Create,
-	HelloWorld_Destroy,
-	HelloWorld_Receive
+	READER_Create,
+	READER_Destroy,
+	READER_Receive
 };
 
 #ifdef BUILD_MODULE_TYPE_STATIC
-MODULE_EXPORT const MODULE_APIS* MODULE_STATIC_GETAPIS(HELLOWORLD_MODULE)(void)
+MODULE_EXPORT const MODULE_APIS* MODULE_STATIC_GETAPIS(READER_MODULE)(void)
 #else
 MODULE_EXPORT const MODULE_APIS* Module_GetAPIS(void)
 #endif
 {
-	return &HelloWorld_APIS_all;
+	return &READER_APIS_all;
 }

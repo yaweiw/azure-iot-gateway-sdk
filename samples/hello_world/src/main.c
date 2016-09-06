@@ -28,7 +28,7 @@ int main(int argc, char** argv)
     }
     else
     {
-        if ((gateway = Gateway_Create_From_JSON(argv[1])) == NULL)
+        if (argc !=2 )//((gateway = Gateway_Create_From_JSON(argv[1])) == NULL)
         {
             printf("failed to create the gateway from JSON\n");
         }

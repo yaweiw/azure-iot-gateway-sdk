@@ -1,11 +1,6 @@
 {
     "modules" :
     [
-//                {
-//            "module name" : "logger_hl",
-//            "module path" : "./modules/logger/liblogger_hl.so",
-//            "args" : {"filename":"log.txt"}
-//        },
         {
             "module name" : "logger_hl",
             "module path" : "./modules/logger/liblogger_hl.so",

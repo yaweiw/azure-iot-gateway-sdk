@@ -16,9 +16,11 @@
 
 #ifndef _LIGHT
 #define LIGHT "LIGHT"
+#endif
 
 #ifndef _VIBRANT
 #define VIBRANT "VIBRAT"
+#endif
 
 typedef struct HELLOWORLD_HANDLE_DATA_TAG
 {

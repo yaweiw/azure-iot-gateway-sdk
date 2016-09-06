@@ -21,9 +21,11 @@
 
 #ifndef _LIGHT
 #define LIGHT "LIGHT"
+#endif
 
 #ifndef _VIBRANT
 #define VIBRANT "VIBRAT"
+#endif
 
 typedef struct IOTHUBHTTPRELAY_HANDLE_DATA_TAG
 {

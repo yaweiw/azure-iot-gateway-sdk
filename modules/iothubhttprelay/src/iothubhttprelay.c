@@ -36,10 +36,6 @@ typedef struct IOTHUBHTTPRELAY_HANDLE_DATA_TAG
 static MODULE_HANDLE IoTHubHttpRelay_Create(MESSAGE_BUS_HANDLE busHandle, const void* configuration)
 {
     IOTHUBHTTPRELAY_HANDLE_DATA *result;
-    /*Codes_SRS_IOTHUBHTTP_02_001: [If busHandle is NULL then IoTHubHttp_Create shall fail and return NULL.]*/
-    /*Codes_SRS_IOTHUBHTTP_02_002: [If configuration is NULL then IoTHubHttp_Create shall fail and return NULL.]*/
-    /*Codes_SRS_IOTHUBHTTP_02_003: [If configuration->IoTHubName is NULL then IoTHubHttp_Create shall and return NULL.]*/
-    /*Codes_SRS_IOTHUBHTTP_02_004: [If configuration->IoTHubSuffix is NULL then IoTHubHttp_Create shall fail and return NULL.]*/
     if (
         (busHandle == NULL) ||
         (configuration == NULL) ||
@@ -113,7 +109,6 @@ static IOTHUB_MESSAGE_HANDLE IoTHubMessage_CreateFromGWMessage(MESSAGE_HANDLE me
         size_t nProperties;
         if (ConstMap_GetInternals(gwMessageProperties, &keys, &values, &nProperties) != CONSTMAP_OK)
         {
-            /*Codes_SRS_IOTHUBHTTP_02_019: [If creating the IOTHUB_MESSAGE_HANDLE fails, then IoTHubHttp_Receive shall return.]*/
             LogError("unable to get properties of the GW message\r\n");
             IoTHubMessage_Destroy(result);
             result = NULL;
@@ -123,8 +118,6 @@ static IOTHUB_MESSAGE_HANDLE IoTHubMessage_CreateFromGWMessage(MESSAGE_HANDLE me
             size_t i;
             for (i = 0; i < nProperties; i++)
             {
-                /*add all the properties of the GW message to the IOTHUB message*/ /*with the exception*/
-                /*Codes_SRS_IOTHUBHTTP_02_018: [IoTHubHttp_Receive shall create a new IOTHUB_MESSAGE_HANDLE having the same content as the messageHandle and same properties with the exception of deviceName and deviceKey properties.]*/
                 if (
                     (strcmp(keys[i], "deviceName") != 0) &&
                     (strcmp(keys[i], "deviceKey") != 0)
@@ -133,7 +126,6 @@ static IOTHUB_MESSAGE_HANDLE IoTHubMessage_CreateFromGWMessage(MESSAGE_HANDLE me
                    
                     if (Map_AddOrUpdate(iothubMessageProperties, keys[i], values[i]) != MAP_OK)
                     {
-                        /*Codes_SRS_IOTHUBHTTP_02_019: [If creating the IOTHUB_MESSAGE_HANDLE fails, then IoTHubHttp_Receive shall return.]*/
                         LogError("unable to Map_AddOrUpdate\r\n");
                         break;
                     }
@@ -146,7 +138,6 @@ static IOTHUB_MESSAGE_HANDLE IoTHubMessage_CreateFromGWMessage(MESSAGE_HANDLE me
             }
             else
             {
-                /*Codes_SRS_IOTHUBHTTP_02_019: [If creating the IOTHUB_MESSAGE_HANDLE fails, then IoTHubHttp_Receive shall return.]*/
                 IoTHubMessage_Destroy(result);
                 result = NULL;
             }
@@ -158,19 +149,16 @@ static IOTHUB_MESSAGE_HANDLE IoTHubMessage_CreateFromGWMessage(MESSAGE_HANDLE me
 
 static void IoTHubHttpRelay_Receive(MODULE_HANDLE moduleHandle, MESSAGE_HANDLE messageHandle)
 {
-    /*Codes_SRS_IOTHUBHTTP_02_009: [If moduleHandle or messageHandle is NULL then IoTHubHttp_Receive shall do nothing.]*/
     if (
         (moduleHandle == NULL) ||
         (messageHandle == NULL)
         )
     {
         LogError("invalid arg moduleHandle=%p, messageHandle=%p\r\n", moduleHandle, messageHandle);
-        /*do nothing*/
     }
     else
     {
         CONSTMAP_HANDLE properties = Message_GetProperties(messageHandle);
-        /*Codes_SRS_IOTHUBHTTP_02_011: [If message properties do not contain a property called "deviceName" having a non-NULL value then IoTHubHttp_Receive shall do nothing.]*/
         const char* light = ConstMap_GetValue(properties, LIGHT);
         if (light == NULL)
         {
@@ -179,7 +167,6 @@ static void IoTHubHttpRelay_Receive(MODULE_HANDLE moduleHandle, MESSAGE_HANDLE m
         }
         else
         {
-            /*Codes_SRS_IOTHUBHTTP_02_012: [If message properties do not contain a property called "deviceKey" having a non-NULL value then IoTHubHttp_Receive shall do nothing.]*/
             const char* vibrant = ConstMap_GetValue(properties, VIBRANT);
             if (vibrant == NULL)
             {

@@ -96,13 +96,6 @@ int helloWorldThread(void *param)
             }
             else
             {
-                //printf("helloWorldMessage: %s\r\n", CONSTBUFFER_GetContent(Message_GetContent(helloWorldMessage))->buffer);
-                //CONSTMAP_HANDLE constmap = Message_GetProperties(helloWorldMessage);
-                //MAP_HANDLE map = (MAP_HANDLE)constmap->map;
-
-                //STRING_HANDLE str = Map_ToJSON(map);
-                //printf("Map_ToJSON: %s\r\n", str->s);
-
                 if (Lock(handleData->lockHandle) == LOCK_OK)
                 {
                     if (handleData->stopThread)
@@ -120,7 +113,7 @@ int helloWorldThread(void *param)
                 {
                     /*shall retry*/
                 }
-                (void)ThreadAPI_Sleep(5000); /*every 5 seconds*/
+                (void)ThreadAPI_Sleep(1000); /*every 1 seconds*/
             }
                 Message_Destroy(helloWorldMessage);
         }

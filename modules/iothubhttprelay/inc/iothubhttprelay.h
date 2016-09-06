@@ -34,8 +34,8 @@ MODULE_EXPORT const MODULE_APIS* MODULE_STATIC_GETAPIS(IOTHUBHTTPRELAY_MODULE)(v
 static const char* mmapFilePath = "/tmp/arduino";
 
 typedef struct mmapData_TAG {
-  int light;   // led on IO8
-  int vibrant;  // built-in led
+  int light;   // light sensor
+  int vibrant;  // vibrant sensor
   pthread_mutex_t mutex;
   pthread_cond_t cond;
 }MMAPDATA;

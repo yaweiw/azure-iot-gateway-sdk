@@ -22,18 +22,14 @@ static MODULE_HANDLE IoTHubHttpRelay_HL_Create(MESSAGE_BUS_HANDLE busHandle, con
     MODULE_HANDLE *result;
     if ((busHandle == NULL) || (configuration == NULL))
     {
-        /*Codes_SRS_IOTHUBHTTP_HL_17_001: [If busHandle is NULL then IoTHubHttp_HL_Create shall fail and return NULL.]*/
-        /*Codes_SRS_IOTHUBHTTP_HL_17_002: [If configuration is NULL then IoTHubHttp_HL_Create shall fail and return NULL.]*/
         LogError("Invalid NULL parameter, busHandle=[%p] configuration=[%p]", busHandle, configuration);
         result = NULL;
     }
     else
     {
-        /*Codes_SRS_IOTHUBHTTP_HL_17_004: [ IoTHubHttp_HL_Create shall parse the configuration as a JSON string. ]*/
         JSON_Value* json = json_parse_string((const char*)configuration);
         if (json == NULL)
         {
-            /*Codes_SRS_IOTHUBHTTP_HL_17_003: [ If configuration is not a JSON string, then IoTHubHttp_HL_Create shall fail and return NULL. ]*/
             LogError("Unable to parse json string");
             result = NULL;
         }
@@ -42,7 +38,6 @@ static MODULE_HANDLE IoTHubHttpRelay_HL_Create(MESSAGE_BUS_HANDLE busHandle, con
             JSON_Object* obj = json_value_get_object(json);
             if (obj == NULL)
             {
-                /*Codes_SRS_IOTHUBHTTP_HL_17_005: [ If parsing configuration fails, IoTHubHttp_HL_Create shall fail and return NULL. ]*/
                 LogError("Expected a JSON Object in configuration");
                 result = NULL;
             }

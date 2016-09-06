@@ -93,12 +93,13 @@ add_subdirectory(./deps/azure-iot-sdks/c)
 include_directories(${SHARED_UTIL_INC_FOLDER})
 
 ####by yaweiw####
-set(THREADS_PREFER_PTHREAD_FLAG ON)
-find_package(Threads REQUIRED)
+#set(THREADS_PREFER_PTHREAD_FLAG ON)
+#find_package(Threads REQUIRED)
 ####by yaweiw####
 
 function(linkSharedUtil whatIsBuilding)
-  target_link_libraries(${whatIsBuilding} aziotsharedutil ${CMAKE_THREAD_LIBS_INIT})
+  #target_link_libraries(${whatIsBuilding} aziotsharedutil ${CMAKE_THREAD_LIBS_INIT})
+  target_link_libraries(${whatIsBuilding} aziotsharedutil)
 endfunction(linkSharedUtil)
 
 #this adds parson

@@ -19,8 +19,11 @@
 #include "messageproperties.h"
 #include "message_bus.h"
 
-#define LIGHT "light"
-#define VIBRANT "vibrant"
+#ifndef _LIGHT
+#define LIGHT "LIGHT"
+
+#ifndef _VIBRANT
+#define VIBRANT "VIBRAT"
 
 typedef struct IOTHUBHTTPRELAY_HANDLE_DATA_TAG
 {

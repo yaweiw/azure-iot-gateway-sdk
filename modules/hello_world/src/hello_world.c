@@ -14,6 +14,12 @@
 #include "azure_c_shared_utility/iot_logging.h"
 #include "azure_c_shared_utility/lock.h"
 
+#ifndef _LIGHT
+#define LIGHT "LIGHT"
+
+#ifndef _VIBRANT
+#define VIBRANT "VIBRAT"
+
 typedef struct HELLOWORLD_HANDLE_DATA_TAG
 {
     THREAD_HANDLE threadHandle;
@@ -69,11 +75,11 @@ int helloWorldThread(void *param)
             char vibrantVal[10];
             sprintf(vibrantVal, "%d", p_mmapData->vibrant);
 
-            if (Map_AddOrUpdate(propertiesMap, "Light", lightVal) != MAP_OK)
+            if (Map_AddOrUpdate(propertiesMap, LIGHT, lightVal) != MAP_OK)
             {
                 LogError("unable to Map_AddOrUpdate lightVal");
             }
-            if (Map_AddOrUpdate(propertiesMap, "Vibrantion", vibrantVal) != MAP_OK)
+            if (Map_AddOrUpdate(propertiesMap, VIBRANT, vibrantVal) != MAP_OK)
             {
                 LogError("unable to Map_AddOrUpdate vibrantVal");
             }
@@ -88,13 +94,13 @@ int helloWorldThread(void *param)
             }
             else
             {
-                printf("helloWorldMessage: %s\r\n", CONSTBUFFER_GetContent(Message_GetContent(helloWorldMessage))->buffer);
-                CONSTMAP_HANDLE constmap = Message_GetProperties(helloWorldMessage);
-                MAP_HANDLE map = (MAP_HANDLE)constmap->map;
+                //printf("helloWorldMessage: %s\r\n", CONSTBUFFER_GetContent(Message_GetContent(helloWorldMessage))->buffer);
+                //CONSTMAP_HANDLE constmap = Message_GetProperties(helloWorldMessage);
+                //MAP_HANDLE map = (MAP_HANDLE)constmap->map;
 
-                STRING_HANDLE str = Map_ToJSON(map);
-                printf("Map_ToJSON: %s\r\n", str->s);
-                 
+                //STRING_HANDLE str = Map_ToJSON(map);
+                //printf("Map_ToJSON: %s\r\n", str->s);
+
                 if (Lock(handleData->lockHandle) == LOCK_OK)
                 {
                     if (handleData->stopThread)

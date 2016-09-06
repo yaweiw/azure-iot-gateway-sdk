@@ -113,7 +113,7 @@ int READERThread(void *param)
                 {
                     /*shall retry*/
                 }
-                (void)ThreadAPI_Sleep(1000); /*every 1 seconds*/
+                (void)ThreadAPI_Sleep(2000); /*every 2 seconds*/
             }
                 Message_Destroy(READERMessage);
         }

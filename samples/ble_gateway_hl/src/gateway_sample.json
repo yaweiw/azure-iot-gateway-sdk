@@ -2,34 +2,34 @@
   "modules": [
     {
       "module name": "IoTHub",
-      "module path": "<</path/to/libiothubhttp_hl.so>>",
+      "module path": "./modules/iothubhttp/libiothubhttp_hl.so",
       "args": {
-        "IoTHubName": "<<Azure IoT Hub Name>>",
-        "IoTHubSuffix": "<<Azure IoT Hub Suffix>>"
+        "IoTHubName": "yaweiIotHub",
+        "IoTHubSuffix": "azure-devices.net"
       }
     },
     {
       "module name": "BLE Printer",
-      "module path": "<</path/to/libble_printer.so>>",
+      "module path": "./samples/ble_gateway_hl/ble_printer/libble_printer.so",
       "args": null
     },
     {
       "module name": "mapping",
-      "module path": "<</path/to/libidentity_map_hl.so>>",
+      "module path": "./modules/identitymap/libidentity_map_hl.so",
       "args": [
         {
-          "macAddress": "AA:BB:CC:DD:EE:FF",
-          "deviceId": "<<Azure IoT Hub Device ID>>",
-          "deviceKey": "<<Azure IoT Hub Device Key>>"
+          "macAddress": "24:71:89:C0:C1:06",
+          "deviceId": "yaweiseconddevice",
+          "deviceKey": "gclDGLXK8dcFco9qnWaqQKTJ9QpsaS6RTT02jGPbxMA="
         }
       ]
     },
     {
       "module name": "SensorTag",
-      "module path": "<</path/to/libble_hl.so>>",
+      "module path": "./modules/ble/libble_hl.so",
       "args": {
         "controller_index": 0,
-        "device_mac_address": "<<AA:BB:CC:DD:EE:FF>>",
+        "device_mac_address": "24:71:89:C0:C1:06",
         "instructions": [
           {
             "type": "read_once",
@@ -75,10 +75,10 @@
     },
     {
       "module name": "Logger",
-      "module path" : "<</path/to/liblogger_hl.so>>",
+      "module path" : "./modules/logger/liblogger_hl.so",
       "args":
       {
-        "filename": "<</path/to/log-file.log>>"
+        "filename": "blelog.txt"
       }
     }
   ]
